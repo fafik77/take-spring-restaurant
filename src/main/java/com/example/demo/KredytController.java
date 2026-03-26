@@ -1,11 +1,9 @@
 package com.example.demo;
 
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(path="/kredyt")
@@ -18,5 +16,17 @@ public class KredytController {
 			@RequestParam Double kwota) {
 		return kredyt1.obliczRate(kwota, 0.1, 12);
 	}
+	@GetMapping("{kwota}")
+	public @ResponseBody Double getKredyt2(
+			@PathVariable Double kwota) {
+		return kredyt1.obliczRate(kwota, 0.1, 12);
+	}
+
+	@PostMapping
+	public @ResponseBody Double postKredyt(
+			@RequestBody Kredyt2 kredyt){
+		return kredyt.obliczRate();
+	}
 
 }
+

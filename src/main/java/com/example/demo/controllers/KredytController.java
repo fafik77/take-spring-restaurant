@@ -1,11 +1,12 @@
-package com.example.demo;
+package com.example.demo.controllers;
 
-import jakarta.websocket.server.PathParam;
+import com.example.demo.Kredyt1;
+import com.example.demo.Kredyt2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController //why RestController? It automatically applies @ResponseBody = JSON
 @RequestMapping(path="/kredyt")
 public class KredytController {
 	@Autowired

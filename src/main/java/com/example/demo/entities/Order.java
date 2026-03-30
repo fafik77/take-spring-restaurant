@@ -1,14 +1,13 @@
-package com.example.demo.models;
+package com.example.demo.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "orders") //crucial to name it
 @Getter
 @Setter
 public class Order {
@@ -22,14 +21,10 @@ public class Order {
 	private Date orderDate;
 	private Date deliverDate;
 
+
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
-//	@ManyToMany
-//	@JoinTable(
-//			name = "order_dish",
-//			joinColumns = @JoinColumn(name = "order_id"),
-//			inverseJoinColumns = @JoinColumn(name = "dish_id")
-//	)
-//	private List<Dish> dishes;
+//	@OneToMany
+//	private List<OrderDish> dishes;
 }

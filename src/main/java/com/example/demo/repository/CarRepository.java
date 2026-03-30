@@ -1,7 +1,6 @@
 package com.example.demo.repository;
 
-import com.example.demo.models.Car;
-import lombok.Getter;
+import com.example.demo.entities.Car;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

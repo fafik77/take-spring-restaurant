@@ -1,8 +1,8 @@
 package com.example.demo.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 
@@ -10,14 +10,19 @@ import java.util.Date;
 @Table(name = "orders") //crucial to name it
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Order {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private double totalPrice;
 	private boolean delivery;
 	private boolean takeout;
 	private boolean selfTakeout;
+	@CreationTimestamp
+	@Column(updatable = false) // Ensures it's never changed after creation
 	private Date orderDate;
 	private Date deliverDate;
 

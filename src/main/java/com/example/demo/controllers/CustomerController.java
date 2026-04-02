@@ -23,13 +23,13 @@ public class CustomerController {
 	@GetMapping("/{id}")
 	public Customer getById(Long id) {
 		return customerRepository.findById(id)
-				.orElseThrow(() -> new NotFoundException(id));
+			.orElseThrow(() -> new NotFoundException(id));
 	}
 
 	@GetMapping("/{id}/orders")
 	public Iterable<Order> getCustomerOrders(Long id) {
 		var customer = customerRepository.findById(id)
-				.orElseThrow(() -> new NotFoundException(id));
+			.orElseThrow(() -> new NotFoundException(id));
 		return customer.getOrders();
 	}
 

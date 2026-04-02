@@ -25,6 +25,6 @@ public class Order {
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
-//	@OneToMany
-//	private List<OrderDish> dishes;
+    @OneToMany
+    private List<OrderDish> dishes;
 }

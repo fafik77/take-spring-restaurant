@@ -1,12 +1,10 @@
 package com.example.demo.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-import java.util.List;
+import java.math.BigDecimal;
 
 @Entity
 @Getter
@@ -16,7 +14,7 @@ import java.util.List;
 public class OrderDish {
     private int quantity;
     private String additionals;
-    private Decimal price;
+    private BigDecimal price;
 
     @ManyToOne
     @JoinColumn (name = "dish_id")

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "amount of ingredients")
+@Table(name = "amount_of_ingredients")
 public class DishIngredient {
     private double amount;
 

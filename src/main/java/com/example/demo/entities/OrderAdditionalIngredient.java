@@ -9,7 +9,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="additional ingredients")
+@Table(name="additional_ingredients")
 public class OrderAdditionalIngredient {
     private double amountAdditional;
 

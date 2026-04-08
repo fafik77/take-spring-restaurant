@@ -11,6 +11,9 @@ import lombok.Setter;
 @Table(name="order_items")
 
 public class OrderDish {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
     private int quantity;
     private String additionals;
     private double price;

@@ -11,16 +11,16 @@ import lombok.Setter;
 @Setter
 @Table(name="additional_ingredients")
 public class OrderAdditionalIngredient {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
     private double amountAdditional;
 
     @ManyToOne
     @JoinColumn(name="ingredient_id")
     private Ingredient ingredient;
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name="order_id"),
-            @JoinColumn(name="dish_id")
-    })
+	@JoinColumn(name="order_dish_id")
     private OrderDish orderDish;
 
 

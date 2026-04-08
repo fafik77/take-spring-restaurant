@@ -9,6 +9,9 @@ import lombok.Setter;
 @Setter
 @Table(name = "amount_of_ingredients")
 public class DishIngredient {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
     private double amount;
 
     @ManyToOne

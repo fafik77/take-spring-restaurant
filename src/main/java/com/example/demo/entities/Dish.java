@@ -22,6 +22,6 @@ public class Dish {
     @JsonIgnore
     @OneToMany(mappedBy = "dish")
     private List <OrderDish> ordersDishes;
-    @OneToMany(mappedBy = "dish_id")
+    @OneToMany(mappedBy = "dish")
     private List <DishIngredient> dishIngredientList;
 }

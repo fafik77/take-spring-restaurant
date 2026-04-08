@@ -17,7 +17,7 @@ public class Ingredient {
     private long id;
     private String name;
     private double price;
-    private String alergen;
+    private String allergen;
     private String unit;
 
     @JsonIgnore

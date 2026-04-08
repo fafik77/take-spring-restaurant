@@ -31,6 +31,6 @@ public class Order {
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
-    @OneToMany
+    @OneToMany(mappedBy = "order")
     private List<OrderDish> dishes;
 }

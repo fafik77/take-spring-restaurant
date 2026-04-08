@@ -4,25 +4,31 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 
 @Entity
 @Getter
 @Setter
-@Table(name="order_items")
-
+@Table(name = "order_items")
 public class OrderDish {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-    private int quantity;
-    private String additionals;
-    private double price;
+	@EmbeddedId
+	private DishOrderId id = new DishOrderId();
 
-    @ManyToOne
-    @JoinColumn (name = "dish_id")
-    private Dish dish;
+	private int quantity;
+	private double price;
 
-    @ManyToOne
-    @JoinColumn (name = "order_id")
-    private Order order;
+	@ManyToOne
+	@MapsId("dishId")
+	@JoinColumn(name = "dish_id")
+	private Dish dish;
+
+	@ManyToOne
+	@MapsId("orderId")
+	@JoinColumn(name = "order_id")
+	private Order order;
+
+	@OneToMany(mappedBy = "orderDish", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<OrderAdditionalIngredient> additions;
 }
+

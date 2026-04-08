@@ -9,18 +9,18 @@ import lombok.Setter;
 @Setter
 @Table(name = "amount_of_ingredients")
 public class DishIngredient {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-    private double amount;
+	@EmbeddedId
+	private DishIngredientId id = new DishIngredientId();
+	private double amount;
 
-    @ManyToOne
-    @JoinColumn (name = "dish_id")
-    private Dish dish;
+	@ManyToOne
+	@MapsId("dishId")
+	@JoinColumn(name = "dish_id")
+	private Dish dish;
 
-    @ManyToOne
-    @JoinColumn (name = "ingredient_id")
-    private Ingredient ingredient;
-
-
+	@ManyToOne
+	@MapsId("ingredientId")
+	@JoinColumn(name = "ingredient_id")
+	private Ingredient ingredient;
 }
+

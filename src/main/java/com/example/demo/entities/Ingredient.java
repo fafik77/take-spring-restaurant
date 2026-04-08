@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -17,7 +16,7 @@ public class Ingredient {
     @GeneratedValue
     private long id;
     private String name;
-    private Decimal price;
+    private double price;
     private String alergen;
     private String unit;
 

@@ -1,17 +1,13 @@
 package com.example.demo.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
-@Table(name = "amount of ingredients")
+@Table(name = "amount_of_ingredients")
 public class DishIngredient {
     private double amount;
 

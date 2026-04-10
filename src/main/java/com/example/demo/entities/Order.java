@@ -9,11 +9,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "orders") //crucial to name it
-@Getter
-@Setter
-@Builder
+@Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,13 +21,13 @@ public class Order {
 	private boolean selfTakeout;
 	@CreationTimestamp
 	@Column(updatable = false) // Ensures it's never changed after creation
-	private Date orderDate;
+	private Date orderDate = new Date();
 	private Date deliverDate;
 
 
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
-    @OneToMany(mappedBy = "order")
-    private List<OrderDish> dishes;
+	@OneToMany(mappedBy = "order")
+	private List<OrderDish> dishes;
 }

@@ -1,7 +1,3 @@
-insert into car(id,model)
-values(1,'Fiesta')
-ON CONFLICT DO NOTHING;
-
 insert into customers(id, delivery_address)
 values(1,'sezamkowa')
 ON CONFLICT DO NOTHING;

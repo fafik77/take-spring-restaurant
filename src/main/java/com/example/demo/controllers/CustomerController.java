@@ -1,59 +1,55 @@
 package com.example.demo.controllers;
 
 import com.example.demo.dto.requests.AddCustomerRequest;
+import com.example.demo.dto.requests.UpdateCustomerRequest;
 import com.example.demo.entities.Customer;
 import com.example.demo.entities.Order;
-import com.example.demo.exceptions.NotFoundException;
-import com.example.demo.repository.CustomerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.services.CustomerService;
+import jakarta.validation.Valid;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/customer")
+@RequiredArgsConstructor
+@Validated
 public class CustomerController {
-	@Autowired
-	CustomerRepository customerRepository;
+	private final CustomerService customerService;
 
 	@GetMapping("/")
 	public Iterable<Customer> getAll() {
-		return customerRepository.findAll();
+		return customerService.findAll();
 	}
 
 	@GetMapping("/{id}")
 	public Customer getById(Long id) {
-		return customerRepository.findById(id)
-			.orElseThrow(() -> new NotFoundException(id));
+		return customerService.findById(id);
 	}
 
 	@GetMapping("/{id}/orders")
 	public Iterable<Order> getCustomerOrders(Long id) {
-		var customer = customerRepository.findById(id)
-			.orElseThrow(() -> new NotFoundException(id));
-		return customer.getOrders();
+		return customerService.getCustomerOrders(id);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Customer add(@RequestBody AddCustomerRequest request) {
-		var customer = Customer.builder().deliveryAddress(request.getDeliveryAddress()).phoneNumber(request.getPhoneNumber()).build();
-		return customerRepository.save(customer);
+	public Customer add(@RequestBody @Valid @NonNull AddCustomerRequest request) {
+		return customerService.add(request);
 	}
 
 	@PutMapping
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void update(@RequestBody Customer customer) {
-		if (customerRepository.existsById(customer.getId())) {
-			customerRepository.save(customer);
-			return;
-		}
-		throw new NotFoundException(customer.getId());
+	public void update(@RequestBody @Valid @NonNull UpdateCustomerRequest request) {
+		customerService.update(request);
 	}
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id) {
-		customerRepository.deleteById(id);
+		customerService.deleteById(id);
 	}
 
 

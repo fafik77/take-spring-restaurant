@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class OrderSevice {
-	OrderRepository orderRepository;
+	private final OrderRepository orderRepository;
 
 	public Iterable<Order> findAll() {
 		return orderRepository.findAll();

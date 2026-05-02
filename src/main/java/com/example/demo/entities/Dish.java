@@ -11,17 +11,28 @@ import java.util.List;
 @Data
 @Table(name = "dishes")
 public class Dish {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-	@NonNull
-    private String name;
-    private double price;
-    private String description;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	static public final String id_ = "id";
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "dish")
-    private List <OrderDish> ordersDishes;
-    @OneToMany(mappedBy = "dish")
-    private List <DishIngredient> dishIngredientList;
+	@NonNull
+	private String name;
+	static public final String name_ = "name";
+
+	private double price;
+	static public final String price_ = "price";
+
+	private String description;
+	static public final String description_ = "description";
+
+
+	@JsonIgnore
+	@OneToMany(mappedBy = OrderDish.dish_)
+	private List<OrderDish> ordersDishes;
+	static public final String ordersDishes_ = "ordersDishes";
+
+	@OneToMany(mappedBy = DishIngredient.dish_)
+	private List<DishIngredient> dishIngredientList;
+	static public final String dishIngredientList_ = "dishIngredientList";
 }

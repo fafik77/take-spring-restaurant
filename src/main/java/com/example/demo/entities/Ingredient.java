@@ -27,10 +27,10 @@ public class Ingredient {
 	private String unit;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "ingredient")
+	@OneToMany(mappedBy = DishIngredient.ingredient_)
 	private List<DishIngredient> dishIngredientList;
 
-	@OneToMany(mappedBy = "ingredient")
+	@OneToMany(mappedBy = OrderAdditionalIngredient.ingredient_)
 	private List<OrderAdditionalIngredient> orderAdditionalIngredientList;
 
 }

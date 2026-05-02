@@ -12,7 +12,7 @@ import java.util.List;
 @Table(name = "dishes")
 public class Dish {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 	@NonNull
     private String name;

@@ -10,27 +10,27 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name="ingredients")
+@Table(name = "ingredients")
 public class Ingredient {
-    @Id
-    @GeneratedValue
-    private long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
 	@NonNull
-    private String name;
-    private double price;
+	private String name;
+	private double price;
 
 	@Convert(converter = JsonStringListConverter.class)
 	@Column(columnDefinition = "text")
-    private List<String> allergen;
+	private List<String> allergen;
 
 	@NonNull
-    private String unit;
+	private String unit;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "ingredient")
-    private List<DishIngredient> dishIngredientList;
+	@JsonIgnore
+	@OneToMany(mappedBy = "ingredient")
+	private List<DishIngredient> dishIngredientList;
 
-    @OneToMany(mappedBy = "ingredient")
-    private List<OrderAdditionalIngredient>  orderAdditionalIngredientList;
+	@OneToMany(mappedBy = "ingredient")
+	private List<OrderAdditionalIngredient> orderAdditionalIngredientList;
 
 }

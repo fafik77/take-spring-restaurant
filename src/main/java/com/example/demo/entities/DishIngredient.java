@@ -1,12 +1,10 @@
 package com.example.demo.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @Entity
-@Getter
-@Setter
+@Data
 @Table(name = "amount_of_ingredients")
 public class DishIngredient {
 	@EmbeddedId

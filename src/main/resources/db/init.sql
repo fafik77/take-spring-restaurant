@@ -76,7 +76,7 @@ CREATE TABLE public.orders (
 	total_price float8 NOT NULL,
 	customer_id int8 NULL,
 	CONSTRAINT orders_pkey PRIMARY KEY (id),
-	CONSTRAINT fkpxtb8awmi0dk6smoh2vp1litg FOREIGN KEY (customer_id) REFERENCES public.customers(id)
+	CONSTRAINT fkpxtb8awmi0dk6smoh2vp1litg FOREIGN KEY (customer_id) REFERENCES public.customers(id) ON DELETE SET NULL
 );
 
 

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class OrderSevice {
+public class OrderService {
 	private final OrderRepository orderRepository;
 
 	public Iterable<Order> findAll() {

@@ -1,23 +1,29 @@
 package com.example.demo.entities;
 
+import com.example.demo.converter.JsonStringListConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NonNull;
 
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Data
 @Table(name="ingredients")
 public class Ingredient {
     @Id
     @GeneratedValue
     private long id;
+	@NonNull
     private String name;
     private double price;
-    private String allergen;
+
+	@Convert(converter = JsonStringListConverter.class)
+	@Column(columnDefinition = "text")
+    private List<String> allergen;
+
+	@NonNull
     private String unit;
 
     @JsonIgnore

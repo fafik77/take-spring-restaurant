@@ -2,19 +2,19 @@ package com.example.demo.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NonNull;
 
 import java.util.List;
 
 @Entity
+@Data
 @Table(name = "dishes")
-@Getter
-@Setter
 public class Dish {
     @Id
     @GeneratedValue
     private long id;
+	@NonNull
     private String name;
     private double price;
     private String description;

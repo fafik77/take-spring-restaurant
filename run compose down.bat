@@ -1,1 +1,2 @@
 docker compose down
+docker volume remove demo_restaurant_db_data

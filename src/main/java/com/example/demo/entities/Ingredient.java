@@ -1,30 +1,36 @@
 package com.example.demo.entities;
 
+import com.example.demo.converter.JsonStringListConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NonNull;
 
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
-@Table(name="ingredients")
+@Data
+@Table(name = "ingredients")
 public class Ingredient {
-    @Id
-    @GeneratedValue
-    private long id;
-    private String name;
-    private double price;
-    private String allergen;
-    private String unit;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	@NonNull
+	private String name;
+	private double price;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "ingredient")
-    private List<DishIngredient> dishIngredientList;
+	@Convert(converter = JsonStringListConverter.class)
+	@Column(columnDefinition = "text")
+	private List<String> allergen;
 
-    @OneToMany(mappedBy = "ingredient")
-    private List<OrderAdditionalIngredient>  orderAdditionalIngredientList;
+	@NonNull
+	private String unit;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = DishIngredient.ingredient_)
+	private List<DishIngredient> dishIngredientList;
+
+	@OneToMany(mappedBy = OrderAdditionalIngredient.ingredient_)
+	private List<OrderAdditionalIngredient> orderAdditionalIngredientList;
 
 }

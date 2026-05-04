@@ -4,13 +4,15 @@ import com.example.demo.converter.JsonStringListConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.util.List;
 
 @Entity
-@Data
 @Table(name = "ingredients")
+@Data
+@NoArgsConstructor
 public class Ingredient {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +32,7 @@ public class Ingredient {
 	@OneToMany(mappedBy = DishIngredient.ingredient_)
 	private List<DishIngredient> dishIngredientList;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = OrderAdditionalIngredient.ingredient_)
 	private List<OrderAdditionalIngredient> orderAdditionalIngredientList;
 

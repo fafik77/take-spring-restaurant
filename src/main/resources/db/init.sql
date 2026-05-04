@@ -208,7 +208,7 @@ INSERT INTO public.amount_of_ingredients (dish_id, ingredient_id, amount) VALUES
 (3, 1, 80.0),   -- Sos pomidorowy (optional base)
 (3, 2, 80.0),   -- Mozzarella
 (3, 7, 40.0),   -- Ser Gorgonzola
-(3, 8, 30.0);   -- Ser Grana Padano
+(3, 8, 30.0),   -- Ser Grana Padano
 (3, 15, 30.0);  -- Ser niebieski
 
 -- Mapping for Pizza Diavola (Dish 4)
@@ -252,15 +252,15 @@ INSERT INTO public.amount_of_ingredients (dish_id, ingredient_id, amount) VALUES
 (9, 1, 100.0),  -- Sos pomidorowy
 (9, 21, 200.0), -- Sos beszamelowy
 (9, 2, 60.0),   -- Mozzarella
-(9, 8, 20.0);   -- Grana Padano
-(9, 17, 40.0),  -- Cebula (for the ragu)
+(9, 8, 20.0),   -- Grana Padano
+(9, 17, 40.0);  -- Cebula (for the ragu)
 
 -- Mapping for Gnocchi Sorrentina (Dish 10)
 INSERT INTO public.amount_of_ingredients (dish_id, ingredient_id, amount) VALUES
 (10, 1, 120.0), -- Sos pomidorowy
 (10, 2, 100.0), -- Mozzarella
 (10, 3, 5.0),   -- Świeża bazylia
-(10, 8, 15.0);  -- Grana Padano
+(10, 8, 15.0),  -- Grana Padano
 (10, 20, 100.0), -- Pomidory świeże
 (10, 13, 1.0);   -- Czosnek
 

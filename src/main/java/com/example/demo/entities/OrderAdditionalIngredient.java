@@ -1,14 +1,14 @@
 package com.example.demo.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Entity
-@Getter
-@Setter
 @Table(name = "additional_ingredients")
+@Data
+@NoArgsConstructor
 public class OrderAdditionalIngredient {
 	@EmbeddedId
 	private OrderDishIngredientId id = new OrderDishIngredientId();

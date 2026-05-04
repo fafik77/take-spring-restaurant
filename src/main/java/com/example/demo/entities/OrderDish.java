@@ -1,16 +1,16 @@
 package com.example.demo.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 
 @Entity
-@Getter
-@Setter
 @Table(name = "order_items")
+@Data
+@NoArgsConstructor
 public class OrderDish {
 	@EmbeddedId
 	private DishOrderId id = new DishOrderId();

@@ -55,8 +55,8 @@ CREATE TABLE public.amount_of_ingredients (
 	dish_id int8 NOT NULL,
 	ingredient_id int8 NOT NULL,
 	CONSTRAINT amount_of_ingredients_pkey PRIMARY KEY (dish_id, ingredient_id),
-	CONSTRAINT fk57gksvlw9care7g5hka3g4phk FOREIGN KEY (ingredient_id) REFERENCES public.ingredients(id),
-	CONSTRAINT fklki3dijf2tihb0a5va0mej5h FOREIGN KEY (dish_id) REFERENCES public.dishes(id)
+	CONSTRAINT fk57gksvlw9care7g5hka3g4phk FOREIGN KEY (ingredient_id) REFERENCES public.ingredients(id) ON DELETE CASCADE,
+	CONSTRAINT fklki3dijf2tihb0a5va0mej5h FOREIGN KEY (dish_id) REFERENCES public.dishes(id) ON DELETE CASCADE
 );
 
 
@@ -92,8 +92,8 @@ CREATE TABLE public.order_items (
 	dish_id int8 NOT NULL,
 	order_id int8 NOT NULL,
 	CONSTRAINT order_items_pkey PRIMARY KEY (dish_id, order_id),
-	CONSTRAINT fkbioxgbv59vetrxe0ejfubep1w FOREIGN KEY (order_id) REFERENCES public.orders(id),
-	CONSTRAINT fkn06bdypik73hotpxvefsrtn77 FOREIGN KEY (dish_id) REFERENCES public.dishes(id)
+	CONSTRAINT fkbioxgbv59vetrxe0ejfubep1w FOREIGN KEY (order_id) REFERENCES public.orders(id) ON DELETE CASCADE,
+	CONSTRAINT fkn06bdypik73hotpxvefsrtn77 FOREIGN KEY (dish_id) REFERENCES public.dishes(id) ON DELETE RESTRICT
 );
 
 
@@ -111,7 +111,7 @@ CREATE TABLE public.additional_ingredients (
 	CONSTRAINT additional_ingredients_pkey PRIMARY KEY (dish_id, ingredient_id, order_id),
 	CONSTRAINT fkebptyxvas1j39fsnjdfqqi73i FOREIGN KEY (dish_id) REFERENCES public.dishes(id),
 	CONSTRAINT fkme03hqeaw76c8vgbd20dwrogf FOREIGN KEY (ingredient_id) REFERENCES public.ingredients(id),
-	CONSTRAINT fkprwghk7gqxpi2ywac266a4yru FOREIGN KEY (order_id) REFERENCES public.orders(id),
+	CONSTRAINT fkprwghk7gqxpi2ywac266a4yru FOREIGN KEY (order_id) REFERENCES public.orders(id) ON DELETE CASCADE,
 	CONSTRAINT fkquc2ny5ixvt3kq9nlrcm0ps37 FOREIGN KEY (dish_id,order_id) REFERENCES public.order_items(dish_id,order_id)
 );
 

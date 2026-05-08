@@ -3,13 +3,15 @@ package com.example.demo.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.util.List;
 
 @Entity
-@Data
 @Table(name = "dishes")
+@Data
+@NoArgsConstructor
 public class Dish {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

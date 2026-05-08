@@ -6,6 +6,8 @@ import com.example.demo.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -15,8 +17,8 @@ public class OrderService {
 		return orderRepository.findAll();
 	}
 
-	public Order findById(Long id) {
-		return orderRepository.findById(id).orElseThrow(() -> new ItemNotFoundException(Order.class, id));
+	public Optional<Order> findById(Long id) {
+		return orderRepository.findById(id);
 	}
 
 	public void deleteById(Long id) {

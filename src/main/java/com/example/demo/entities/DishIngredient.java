@@ -2,10 +2,12 @@ package com.example.demo.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Data
 @Table(name = "amount_of_ingredients")
+@Data
+@NoArgsConstructor
 public class DishIngredient {
 	@EmbeddedId
 	private DishIngredientId id = new DishIngredientId();

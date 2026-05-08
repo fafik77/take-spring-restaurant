@@ -18,4 +18,10 @@ public class DefaultExceptionHandler {
 		return new ResponseEntity<@NotNull ItemNotFoundErrorDetails>(new ItemNotFoundErrorDetails(ex.getMessage()), HttpStatus.NOT_FOUND);
 	}
 
+	@ExceptionHandler(ItemInUseException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public ResponseEntity<@NotNull ItemNotFoundErrorDetails> handleItemInUse(ItemInUseException ex) {
+		return new ResponseEntity<@NotNull ItemNotFoundErrorDetails>(new ItemNotFoundErrorDetails(ex.getMessage()), HttpStatus.NOT_FOUND);
+	}
+
 }

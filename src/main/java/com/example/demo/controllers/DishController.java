@@ -23,7 +23,7 @@ public class DishController {
 	}
 
 	@GetMapping("/{id}")
-	public DishDetailsDto getById(Long id) {
+	public DishDetailsDto getById(@PathVariable Long id) {
 		return DishDetailsDto.fromEntity(dishService.findById(id).orElseThrow(() -> new ItemNotFoundException(Dish.class, id)));
 	}
 

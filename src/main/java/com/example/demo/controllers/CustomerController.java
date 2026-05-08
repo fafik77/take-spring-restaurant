@@ -1,9 +1,10 @@
 package com.example.demo.controllers;
 
+import com.example.demo.dto.CustomerDto;
+import com.example.demo.dto.OrderGeneralDto;
 import com.example.demo.dto.requests.AddCustomerRequest;
 import com.example.demo.dto.requests.UpdateCustomerRequest;
 import com.example.demo.entities.Customer;
-import com.example.demo.entities.Order;
 import com.example.demo.services.CustomerService;
 import jakarta.validation.Valid;
 import lombok.NonNull;
@@ -11,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping(path = "/customers")
@@ -20,8 +23,10 @@ public class CustomerController {
 	private final CustomerService customerService;
 
 	@GetMapping("/")
-	public Iterable<Customer> getAll() {
-		return customerService.findAll();
+	public Iterable<CustomerDto> getAll() {
+		return StreamSupport.stream(
+				customerService.findAll().spliterator(), false)
+			.map(CustomerDto::fromEntity).toList();
 	}
 
 	@GetMapping("/{id}")
@@ -30,14 +35,16 @@ public class CustomerController {
 	}
 
 	@GetMapping("/{id}/orders")
-	public Iterable<Order> getCustomerOrders(Long id) {
-		return customerService.getCustomerOrders(id);
+	public Iterable<OrderGeneralDto> getCustomerOrders(Long id) {
+		return StreamSupport.stream(
+				customerService.getCustomerOrders(id).spliterator(), true)
+			.map(OrderGeneralDto::fromEntity).toList();
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Customer add(@RequestBody @Valid @NonNull AddCustomerRequest request) {
-		return customerService.add(request);
+	public CustomerDto add(@RequestBody @Valid @NonNull AddCustomerRequest request) {
+		return CustomerDto.fromEntity(customerService.add(request));
 	}
 
 	@PutMapping

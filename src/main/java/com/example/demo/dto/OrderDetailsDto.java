@@ -1,6 +1,7 @@
 package com.example.demo.dto;
 
 import com.example.demo.entities.Order;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderDetailsDto {
 	private Long id;
+	@JsonFormat(shape = JsonFormat.Shape.NUMBER_FLOAT, pattern = "0.00")
 	private double totalPrice;
 	private Date orderDate;
 	private Date deliverDate;

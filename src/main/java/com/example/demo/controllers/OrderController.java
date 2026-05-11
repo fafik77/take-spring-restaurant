@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.dto.IdDto;
 import com.example.demo.dto.OrderDetailsDto;
 import com.example.demo.dto.OrderGeneralDto;
 import com.example.demo.dto.requests.AddOrderRequest;
@@ -10,11 +11,15 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.StreamSupport;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(path = "/orders")
@@ -38,8 +43,10 @@ public class OrderController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public void add(@RequestBody @Valid @NotNull AddOrderRequest request) {
-		throw new NotImplementedException();
+	public EntityModel<IdDto> add(@RequestBody @Valid @NotNull AddOrderRequest request) {
+		Long id = orderService.add(request);
+		return EntityModel.of(new IdDto(id),
+			linkTo(methodOn(OrderController.class).getById(id)).withSelfRel());
 	}
 
 	@DeleteMapping("{id}")

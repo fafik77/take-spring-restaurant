@@ -43,7 +43,8 @@ public class Order {
 	private Customer customer;
 	static public final String customer_ = "customer";
 
-	@OneToMany(mappedBy = OrderDish.order_)
+	//CascadeType.ALL is required to reflect changes in sub-tables
+	@OneToMany(mappedBy = OrderDish.order_, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<OrderDish> dishes;
 	static public final String dishes_ = "dishes";
 }

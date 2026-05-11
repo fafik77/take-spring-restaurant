@@ -1,6 +1,7 @@
 package com.example.demo.dto;
 
 import com.example.demo.entities.OrderDish;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -13,6 +14,7 @@ OrderDishDto {
 	private long dishId;
 	private String dishName;
 	private int quantity;
+	@JsonFormat(shape = JsonFormat.Shape.NUMBER_FLOAT, pattern = "0.00")
 	private double price;
 	private List<OrderAdditionalIngredientDto> additions;
 

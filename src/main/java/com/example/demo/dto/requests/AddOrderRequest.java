@@ -1,6 +1,7 @@
 package com.example.demo.dto.requests;
 
 import com.example.demo.entities.Order;
+import com.example.demo.entities.TakeoutOptions;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -11,9 +12,7 @@ import java.util.List;
 @Data
 @Validated
 public class AddOrderRequest {
-	private boolean delivery;
-	private boolean takeout;
-	private boolean selfTakeout;
+	private TakeoutOptions takeoutOptions;
 	@NotNull
 	private Long customerId;
 
@@ -26,9 +25,7 @@ public class AddOrderRequest {
 	}
 
 	public Order updateEntity(Order order) {
-		order.setDelivery(delivery);
-		order.setTakeout(takeout);
-		order.setSelfTakeout(selfTakeout);
+		order.setTakeoutOptions(takeoutOptions);
 		return order;
 	}
 }

@@ -79,8 +79,8 @@ public class OrderService {
 			}
 		).toList();
 		var totalPrice = dishes.stream().mapToDouble(OrderDish::getPrice).sum();
-		if (request.isDelivery()) totalPrice += deliveryPrice;
-		if (request.isTakeout()) totalPrice += takeoutPrice;
+		if (request.getTakeoutOptions() == TakeoutOptions.Delivery) totalPrice += deliveryPrice;
+		if (request.getTakeoutOptions() == TakeoutOptions.Takeout) totalPrice += takeoutPrice;
 
 		order.setDishes(dishes);
 		order.setTotalPrice(totalPrice);

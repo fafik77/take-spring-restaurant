@@ -110,7 +110,7 @@ CREATE TABLE public.additional_ingredients (
 	order_id int8 NOT NULL,
 	CONSTRAINT additional_ingredients_pkey PRIMARY KEY (dish_id, ingredient_id, order_id),
 	CONSTRAINT fkebptyxvas1j39fsnjdfqqi73i FOREIGN KEY (dish_id) REFERENCES public.dishes(id),
-	CONSTRAINT fkme03hqeaw76c8vgbd20dwrogf FOREIGN KEY (ingredient_id) REFERENCES public.ingredients(id),
+	CONSTRAINT fkme03hqeaw76c8vgbd20dwrogf FOREIGN KEY (ingredient_id) REFERENCES public.ingredients(id) ON DELETE RESTRICT,
 	CONSTRAINT fkprwghk7gqxpi2ywac266a4yru FOREIGN KEY (order_id) REFERENCES public.orders(id) ON DELETE CASCADE,
 	CONSTRAINT fkquc2ny5ixvt3kq9nlrcm0ps37 FOREIGN KEY (dish_id,order_id) REFERENCES public.order_items(dish_id,order_id)
 );

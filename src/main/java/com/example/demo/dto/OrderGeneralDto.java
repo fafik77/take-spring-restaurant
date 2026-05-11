@@ -3,12 +3,15 @@ package com.example.demo.dto;
 import com.example.demo.entities.Order;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Date;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
-public class OrderGeneralDto {
+public class OrderGeneralDto extends RepresentationModel<OrderGeneralDto> {
 	private Long id;
 	private double totalPrice;
 	private Date orderDate;

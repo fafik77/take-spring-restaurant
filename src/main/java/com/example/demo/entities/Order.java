@@ -20,14 +20,10 @@ public class Order {
 	private double totalPrice;
 	static public final String totalPrice_ = "totalPrice";
 
-	private boolean delivery;
-	static public final String delivery_ = "delivery";
-
-	private boolean takeout;
-	static public final String takeout_ = "takeout";
-
-	private boolean selfTakeout;
-	static public final String selfTakeout_ = "selfTakeout";
+	@Enumerated(EnumType.STRING)
+	@Column(name = "takeout_options", nullable = false)
+	private TakeoutOptions takeoutOptions = TakeoutOptions.NoTakeout;
+	static public final String takeoutOptions_ = "takeoutOptions";
 
 	@CreationTimestamp
 	@Column(updatable = false) // Ensures it's never changed after creation
@@ -43,7 +39,8 @@ public class Order {
 	private Customer customer;
 	static public final String customer_ = "customer";
 
-	@OneToMany(mappedBy = OrderDish.order_)
+	//CascadeType.ALL is required to reflect changes in sub-tables
+	@OneToMany(mappedBy = OrderDish.order_, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<OrderDish> dishes;
 	static public final String dishes_ = "dishes";
 }

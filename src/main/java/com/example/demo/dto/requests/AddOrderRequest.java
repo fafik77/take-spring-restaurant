@@ -14,14 +14,12 @@ public class AddOrderRequest {
 	private boolean delivery;
 	private boolean takeout;
 	private boolean selfTakeout;
-	private Long customer_id;
+	@NotNull
+	private Long customerId;
 
 	@NotNull
 	@NotEmpty
 	private List<AddOrderDishItem> items;
-
-	@NotNull
-	private Long customerId;
 
 	public Order mapToEntity() {
 		return updateEntity(new Order());
@@ -31,9 +29,6 @@ public class AddOrderRequest {
 		order.setDelivery(delivery);
 		order.setTakeout(takeout);
 		order.setSelfTakeout(selfTakeout);
-
-//		order.setDishes(items.mapToEntity());
-
 		return order;
 	}
 }

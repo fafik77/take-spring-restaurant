@@ -26,6 +26,9 @@ public class OrderService {
 	private final DishRepository dishRepository;
 	private final IngredientRepository ingredientRepository;
 
+	static public final double deliveryPrice = 10;
+	static public final double takeoutPrice = 1;
+
 	public Iterable<Order> findAll() {
 		return orderRepository.findAll();
 	}
@@ -75,8 +78,12 @@ public class OrderService {
 				return orderedDish;
 			}
 		).toList();
+		var totalPrice = dishes.stream().mapToDouble(OrderDish::getPrice).sum();
+		if (request.isDelivery()) totalPrice += deliveryPrice;
+		if (request.isTakeout()) totalPrice += takeoutPrice;
 
 		order.setDishes(dishes);
+		order.setTotalPrice(totalPrice);
 		var savedOrder = orderRepository.save(order);
 		return savedOrder.getId();
 	}

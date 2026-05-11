@@ -19,9 +19,9 @@ public class DefaultExceptionHandler {
 	}
 
 	@ExceptionHandler(ItemInUseException.class)
-	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ResponseEntity<@NotNull ItemNotFoundErrorDetails> handleItemInUse(ItemInUseException ex) {
-		return new ResponseEntity<@NotNull ItemNotFoundErrorDetails>(new ItemNotFoundErrorDetails(ex.getMessage()), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<@NotNull ItemNotFoundErrorDetails>(new ItemNotFoundErrorDetails(ex.getMessage()), HttpStatus.BAD_REQUEST);
 	}
 
 }

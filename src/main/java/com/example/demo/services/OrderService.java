@@ -2,6 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.dto.requests.AddOrderRequest;
 import com.example.demo.entities.*;
+import com.example.demo.exceptions.ItemInUseException;
 import com.example.demo.exceptions.ItemNotFoundException;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.DishRepository;
@@ -14,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +31,7 @@ public class OrderService {
 
 	static public final double deliveryPrice = 10;
 	static public final double takeoutPrice = 1;
+	static public final int orderLockoutDeleteAfterSeconds = 30;
 
 	public Iterable<Order> findAll() {
 		return orderRepository.findAll();
@@ -38,6 +42,12 @@ public class OrderService {
 	}
 
 	public void deleteById(Long id) {
+		var order = orderRepository.findById(id).orElseThrow(() -> new ItemNotFoundException(Order.class, id));
+		Instant thirtySecondsAgo = Instant.now().minus(orderLockoutDeleteAfterSeconds, ChronoUnit.SECONDS);
+
+		//check if more than (30) seconds have passed
+		if (order.getOrderDate().toInstant().isBefore(thirtySecondsAgo))
+			throw new ItemInUseException(Order.class, id);
 		orderRepository.deleteById(id);
 	}
 

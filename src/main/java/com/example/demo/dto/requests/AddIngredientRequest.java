@@ -1,9 +1,12 @@
 package com.example.demo.dto.requests;
 
 import com.example.demo.entities.Ingredient;
+import com.example.demo.entities.IngredientUnit;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
+import lombok.NonNull;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
@@ -11,16 +14,17 @@ import java.util.List;
 @Data
 @Validated
 public class AddIngredientRequest {
+	@NonNull
 	@NotBlank
 	private String name;
 
 	@PositiveOrZero
 	private double price;
 
-	private List<String> allergen;
+	private List<@NonNull String> allergen;
 
-	@NotBlank
-	private String unit;
+	@NotNull
+	private IngredientUnit unit;
 
 	public Ingredient mapToEntity() {
 		return updateEntity(new Ingredient());

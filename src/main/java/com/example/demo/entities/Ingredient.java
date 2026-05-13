@@ -26,8 +26,9 @@ public class Ingredient {
 	@Column(columnDefinition = "text")
 	private List<String> allergen;
 
+	@Enumerated(EnumType.STRING)
 	@NonNull
-	private String unit;
+	private IngredientUnit unit;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = DishIngredient.ingredient_)

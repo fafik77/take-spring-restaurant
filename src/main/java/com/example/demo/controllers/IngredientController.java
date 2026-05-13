@@ -63,6 +63,15 @@ public class IngredientController {
 			linkTo(methodOn(IngredientController.class).getById(id)).withSelfRel());
 	}
 
+	@PutMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@Operation(summary = "Update ingredient")
+	@ApiResponse(responseCode = "400", content = {@Content(schema = @Schema(implementation = ItemNotFoundErrorDetails.class))})
+	@ApiResponse(responseCode = "404", content = {@Content(schema = @Schema(implementation = ItemNotFoundErrorDetails.class))})
+	public void update(@PathVariable Long id, @RequestBody @Valid @NotNull AddIngredientRequest request) {
+		ingredientService.update(id, request);
+	}
+
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@Operation(summary = "Remove ingredient")

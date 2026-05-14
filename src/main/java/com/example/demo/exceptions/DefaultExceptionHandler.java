@@ -24,4 +24,10 @@ public class DefaultExceptionHandler {
 		return new ResponseEntity<@NotNull ItemNotFoundErrorDetails>(new ItemNotFoundErrorDetails(ex.getMessage()), HttpStatus.BAD_REQUEST);
 	}
 
+	@ExceptionHandler(IngredientPriceChangeInUseException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ResponseEntity<@NotNull ItemNotFoundErrorDetails> handleIngredientPriceChangeInUse(IngredientPriceChangeInUseException ex) {
+		return new ResponseEntity<@NotNull ItemNotFoundErrorDetails>(new ItemNotFoundErrorDetails(ex.getMessage()), HttpStatus.BAD_REQUEST);
+	}
+
 }

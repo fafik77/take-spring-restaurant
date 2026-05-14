@@ -1,10 +1,14 @@
 package com.example.demo.dto;
 
+import com.example.demo.controllers.IngredientController;
 import com.example.demo.entities.OrderAdditionalIngredient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.hateoas.RepresentationModel;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -23,8 +27,6 @@ public class OrderAdditionalIngredientDto extends RepresentationModel<OrderAddit
 			ingredient.getIngredient().getId(),
 			ingredient.getIngredient().getPrice() * amount
 		)
-			//TODO: connect `IngredientController`.getById()
-//			.add(linkTo(methodOn(IngredientController.class).getById(ingredient.getIngredient().getId()).withSelfRel());
-			;
+			.add(linkTo(methodOn(IngredientController.class).getById(ingredient.getIngredient().getId())).withSelfRel());
 	}
 }

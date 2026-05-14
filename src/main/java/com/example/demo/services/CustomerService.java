@@ -35,6 +35,8 @@ public class CustomerService {
 	}
 
 	public void deleteById(Long id) {
+		if (!customerRepository.existsById(id))
+			throw new ItemNotFoundException(Customer.class, id);
 		customerRepository.deleteById(id);
 	}
 

@@ -50,11 +50,10 @@ public class DishService {
 		List<Ingredient> fetchedIngredients = ingredientRepository.findAllById(ingredientIds);
 
 		if (fetchedIngredients.size() != request.getIngredients().size()) {
-			throw new IllegalArgumentException("Some of ingredients not existing!");
+			throw new ItemNotFoundException(Ingredient.class, String.join(", ", ingredientIds.stream().map(Object::toString).toList()));
 		}
 
 		List<DishIngredient> dishIngredients = request.getIngredients().stream().map(item -> {
-
 			Ingredient ingredient = fetchedIngredients.stream()
 				.filter(i -> i.getId() == item.getId())
 				.findFirst()
@@ -76,10 +75,6 @@ public class DishService {
 
 	@Transactional
 	public void update(UpdateDishRequest request) {
-		if (request.getId() == null) {
-			throw new IllegalArgumentException("ID is required for update");
-		}
-
 		Dish existingDish = dishRepository.findById(request.getId())
 			.orElseThrow(() -> new ItemNotFoundException(Dish.class, request.getId()));
 
@@ -106,7 +101,7 @@ public class DishService {
 	}
 
 	public List<Dish> findMostPopularDishes() {
-		return dishRepository .findMostPopularDishes();
+		return dishRepository.findMostPopularDishes();
 	}
 
 	public List<Dish> findModifiedDishes() {

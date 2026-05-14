@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.dto.CustomerDto;
 import com.example.demo.dto.IdDto;
 import com.example.demo.dto.OrderGeneralDto;
+import com.example.demo.dto.RegularCustomerDto;
 import com.example.demo.dto.requests.AddCustomerRequest;
 import com.example.demo.dto.requests.UpdateCustomerRequest;
 import com.example.demo.entities.Customer;
@@ -76,6 +77,16 @@ public class CustomerController {
 			).toList();
 		return CollectionModel.of(dto,
 			linkTo(methodOn(CustomerController.class).getCustomerOrders(id)).withSelfRel());
+	}
+
+	@GetMapping("/regulars")
+	@ResponseStatus(HttpStatus.OK)
+	@Operation(summary = "Get regular customers")
+	public CollectionModel<RegularCustomerDto> getRegulars() {
+		List<RegularCustomerDto> regulars = customerService.getRegulars();
+		return CollectionModel.of(
+			regulars.stream().map(r -> r.add(linkTo(methodOn(CustomerController.class).getById(r.getId())).withSelfRel())).toList(),
+			linkTo(methodOn(CustomerController.class).getRegulars()).withSelfRel());
 	}
 
 	@PostMapping

@@ -2,10 +2,15 @@ package com.example.demo.services;
 
 import com.example.demo.dto.requests.AddDishRequest;
 import com.example.demo.dto.requests.UpdateDishRequest;
+import com.example.demo.dto.requests.ingredientAmount;
 import com.example.demo.entities.Dish;
+import com.example.demo.entities.DishIngredient;
+import com.example.demo.entities.Ingredient;
 import com.example.demo.exceptions.ItemInUseException;
 import com.example.demo.exceptions.ItemNotFoundException;
+import com.example.demo.repository.DishIngredientRepository;
 import com.example.demo.repository.DishRepository;
+import com.example.demo.repository.IngredientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -18,6 +23,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DishService {
 	private final DishRepository dishRepository;
+	private final IngredientRepository ingredientRepository;
+	private final DishIngredientRepository dishIngredientRepository;
 
 	public List<Dish> findAll() {
 		return dishRepository.findAll();
@@ -34,7 +41,37 @@ public class DishService {
 		dish.setDescription(request.getDescription());
 		dish.setPrice(request.getPrice());
 
-		return dishRepository.save(dish).getId();
+		Dish savedDish = dishRepository.save(dish);
+
+		List<Long> ingredientIds = request.getIngredients().stream()
+			.map(ingredientAmount::getId)
+			.toList();
+
+		List<Ingredient> fetchedIngredients = ingredientRepository.findAllById(ingredientIds);
+
+		if (fetchedIngredients.size() != request.getIngredients().size()) {
+			throw new IllegalArgumentException("Some of ingredients not existing!");
+		}
+
+		List<DishIngredient> dishIngredients = request.getIngredients().stream().map(item -> {
+
+			Ingredient ingredient = fetchedIngredients.stream()
+				.filter(i -> i.getId() == item.getId())
+				.findFirst()
+				.orElseThrow();
+
+			DishIngredient dishIngredient = new DishIngredient();
+			dishIngredient.setDish(savedDish);
+			dishIngredient.setIngredient(ingredient);
+
+			dishIngredient.setAmount(item.getAmount());
+
+			return dishIngredient;
+		}).toList();
+
+		dishIngredientRepository.saveAll(dishIngredients);
+
+		return savedDish.getId();
 	}
 
 	@Transactional

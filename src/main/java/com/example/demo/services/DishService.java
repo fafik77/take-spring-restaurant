@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
-import com.example.demo.dto.DishGeneralDto;
+import com.example.demo.dto.requests.AddDishRequest;
+import com.example.demo.dto.requests.UpdateDishRequest;
 import com.example.demo.entities.Dish;
 import com.example.demo.exceptions.ItemInUseException;
 import com.example.demo.exceptions.ItemNotFoundException;
@@ -27,7 +28,7 @@ public class DishService {
 	}
 
 	@Transactional
-	public Long add(DishGeneralDto request) {
+	public Long add(AddDishRequest request) {
 		Dish dish = new Dish();
 		dish.setName(request.getName());
 		dish.setDescription(request.getDescription());
@@ -37,7 +38,7 @@ public class DishService {
 	}
 
 	@Transactional
-	public void update(DishGeneralDto request) {
+	public void update(UpdateDishRequest request) {
 		if (request.getId() == null) {
 			throw new IllegalArgumentException("ID is required for update");
 		}
@@ -45,10 +46,8 @@ public class DishService {
 		Dish existingDish = dishRepository.findById(request.getId())
 			.orElseThrow(() -> new ItemNotFoundException(Dish.class, request.getId()));
 
-		if (Double.compare(request.getPrice(), existingDish.getPrice()) != 0) {
-			if (isDishInUse(existingDish.getId())) {
-				throw new ItemInUseException(Dish.class, existingDish.getId());
-			}
+		if (isDishInUse(existingDish.getId())) {
+			throw new ItemInUseException(Dish.class, existingDish.getId());
 		}
 
 		existingDish.setName(request.getName());
@@ -64,26 +63,22 @@ public class DishService {
 			throw new ItemNotFoundException(Dish.class, id);
 		}
 
-		if (isDishInUse(id)) {
-			throw new ItemInUseException(Dish.class, id);
-		}
+		if (isDishInUse(id)) throw new ItemInUseException(Dish.class, id);
 
 		dishRepository.deleteById(id);
 	}
 
 	public List<Dish> findMostPopularDishes() {
-		return dishRepository.findMostPopularDishes();
+		return dishRepository .findMostPopularDishes();
 	}
 
 	public List<Dish> findModifiedDishes() {
 		return dishRepository.findModifiedDishes();
 	}
 
-	/**
-	 * Sprawdza, czy potrawa przypisana jest do jakiegokolwiek zamówienia
-	 */
+
 	private boolean isDishInUse(Long id) {
-		Specification<Dish> dishHasOrders = (root, query, cb) -> cb.and(
+		Specification<Dish> dishHasOrders = (root, _, cb) -> cb.and(
 			cb.equal(root.get(Dish.id_), id),
 			cb.isNotEmpty(root.get(Dish.ordersDishes_))
 		);

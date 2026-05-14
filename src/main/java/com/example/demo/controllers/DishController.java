@@ -3,6 +3,8 @@ package com.example.demo.controllers;
 import com.example.demo.dto.DishDetailsDto;
 import com.example.demo.dto.DishGeneralDto;
 import com.example.demo.dto.IdDto;
+import com.example.demo.dto.requests.AddDishRequest;
+import com.example.demo.dto.requests.UpdateDishRequest;
 import com.example.demo.entities.Dish;
 import com.example.demo.exceptions.ItemNotFoundErrorDetails;
 import com.example.demo.exceptions.ItemNotFoundException;
@@ -20,8 +22,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.stream.StreamSupport;
-
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -37,8 +37,7 @@ public class DishController {
 	@ResponseStatus(HttpStatus.OK)
 	@Operation(summary = "Get all dishes")
 	public CollectionModel<DishGeneralDto> getAll() {
-		var dishes = StreamSupport.stream(
-				dishService.findAll().spliterator(), false)
+		var dishes = dishService.findAll().stream()
 			.map(ent -> DishGeneralDto.fromEntity(ent)
 				.add(linkTo(methodOn(DishController.class).getById(ent.getId())).withSelfRel())
 			).toList();
@@ -59,7 +58,7 @@ public class DishController {
 	@PostMapping("/")
 	@ResponseStatus(HttpStatus.CREATED)
 	@Operation(summary = "Add a new dish")
-	public EntityModel<IdDto> add(@RequestBody @Valid @NotNull DishGeneralDto request) {
+	public EntityModel<IdDto> add(@RequestBody @Valid @NotNull AddDishRequest request) {
 		Long id = dishService.add(request);
 		return EntityModel.of(new IdDto(id),
 			linkTo(methodOn(DishController.class).getById(id)).withSelfRel());
@@ -70,7 +69,7 @@ public class DishController {
 	@Operation(summary = "Update an existing dish (price cannot be changed if in use)")
 	@ApiResponse(responseCode = "400", content = {@Content(schema = @Schema(implementation = ItemNotFoundErrorDetails.class))})
 	@ApiResponse(responseCode = "404", content = {@Content(schema = @Schema(implementation = ItemNotFoundErrorDetails.class))})
-	public void update(@RequestBody @Valid @NotNull DishGeneralDto request) {
+	public void update(@RequestBody @Valid @NotNull UpdateDishRequest request) {
 		dishService.update(request);
 	}
 

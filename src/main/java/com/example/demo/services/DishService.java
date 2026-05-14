@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.dto.DishGeneralDto;
 import com.example.demo.entities.Dish;
 import com.example.demo.exceptions.ItemInUseException;
 import com.example.demo.exceptions.ItemNotFoundException;
@@ -7,6 +8,7 @@ import com.example.demo.repository.DishRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,24 +26,67 @@ public class DishService {
 		return dishRepository.findById(id);
 	}
 
-	/**
-	 * Removes Dish from the menu only if it was not ordered.
-	 * the `DishIngredient` table has entries removed as well.
-	 *
-	 * @param id Dish to remove
-	 */
+	@Transactional
+	public Long add(DishGeneralDto request) {
+		Dish dish = new Dish();
+		dish.setName(request.getName());
+		dish.setDescription(request.getDescription());
+		dish.setPrice(request.getPrice());
+
+		return dishRepository.save(dish).getId();
+	}
+
+	@Transactional
+	public void update(DishGeneralDto request) {
+		if (request.getId() == null) {
+			throw new IllegalArgumentException("ID is required for update");
+		}
+
+		Dish existingDish = dishRepository.findById(request.getId())
+			.orElseThrow(() -> new ItemNotFoundException(Dish.class, request.getId()));
+
+		if (Double.compare(request.getPrice(), existingDish.getPrice()) != 0) {
+			if (isDishInUse(existingDish.getId())) {
+				throw new ItemInUseException(Dish.class, existingDish.getId());
+			}
+		}
+
+		existingDish.setName(request.getName());
+		existingDish.setDescription(request.getDescription());
+		existingDish.setPrice(request.getPrice());
+
+		dishRepository.save(existingDish);
+	}
+
+	@Transactional
 	public void deleteById(Long id) {
-		if (!dishRepository.existsById(id))
+		if (!dishRepository.existsById(id)) {
 			throw new ItemNotFoundException(Dish.class, id);
-		Specification<Dish> dishHasOrders = (root, query, cb) -> {
-			return cb.and(
-				cb.equal(root.get(Dish.id_), id), // filter by Dish ID
-				cb.isNotEmpty(root.get(Dish.ordersDishes_)) // Check for orders in that dish
-			);
-		};
-		//check if predicate is true
-		if (dishRepository.exists(dishHasOrders))
+		}
+
+		if (isDishInUse(id)) {
 			throw new ItemInUseException(Dish.class, id);
+		}
+
 		dishRepository.deleteById(id);
+	}
+
+	public List<Dish> findMostPopularDishes() {
+		return dishRepository.findMostPopularDishes();
+	}
+
+	public List<Dish> findModifiedDishes() {
+		return dishRepository.findModifiedDishes();
+	}
+
+	/**
+	 * Sprawdza, czy potrawa przypisana jest do jakiegokolwiek zamówienia
+	 */
+	private boolean isDishInUse(Long id) {
+		Specification<Dish> dishHasOrders = (root, query, cb) -> cb.and(
+			cb.equal(root.get(Dish.id_), id),
+			cb.isNotEmpty(root.get(Dish.ordersDishes_))
+		);
+		return dishRepository.exists(dishHasOrders);
 	}
 }

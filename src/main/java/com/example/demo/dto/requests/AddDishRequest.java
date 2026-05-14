@@ -24,5 +24,5 @@ public class AddDishRequest {
 
 	@NotNull
 	@NotEmpty
-	private List<@NonNull Long> ingredientIds;
+	private List<@NonNull ingredientAmount> ingredients;
 }
